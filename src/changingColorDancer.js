@@ -2,8 +2,6 @@ var ChangingColorDancer = function(top, left, timeBetweenSteps){
   
   Dancer.apply(this, arguments);
 
-  // this.$node = $('<span class="dancer"></span>');
-
 };
 
 ChangingColorDancer.prototype = Object.create(Dancer.prototype);
@@ -31,8 +29,8 @@ ChangingColorDancer.prototype.step = function(){
     var val3 = Math.floor(Math.random()*255);
     return 'rgb(' + val1 + ',' + val2 + ',' + val3 + ')';
   });
-  this.$node.fadeIn();
-  this.$node.fadeOut();
+  // this.$node.fadeIn();
+  // this.$node.fadeOut();
 };
 
 

@@ -28,6 +28,58 @@ $(document).ready(function(){
       Math.random() * 1000
     );
     $('body').append(dancer.$node);
+    dancers.push(dancer);
   });
+
+  $(".lineUpButton").on("click", function(event) {
+
+    //height and width of the page, divide it to be at the center of the screen and calculate the horizontal value for each dancer
+    var targetHeight = $("body").height() /2 ;
+    var distanceWidth = ($("body").width() - 200) / (window.dancers.length);
+
+    for(var i = 0; i < window.dancers.length; i++) {
+      // call the line up method on each dancer 
+      dancers[i].lineUp(targetHeight, (distanceWidth * (i + 1)));
+  }
+});
+
+  $("body").on('mouseover', '.dancer' , function() {
+    var currentDancer = dancers[$(this).data("index")];
+    debugger;
+    if(currentDancer instanceof MovingDancer) {
+      currentDancer.topSpeed *= -1;
+      currentDancer.leftSpeed *= -1;
+    }
+  });
+
+  var collisionDetector = function() {
+    // 5px radius
+    var currentDancer;
+
+    // check the array of dancers
+    for(var i = 0; i<dancers.length; i++) {
+      //if object is moving dancer then
+      currentDancer = dancers[i];
+      if(currentDancer instanceof MovingDancer) {
+        for(var j = 0; j< dancers.length; j++) {
+          if(i !== j) {
+            //check all other objects within a 20 px radius
+            if(dancers[j].top <= currentDancer.top + 19  && dancers[j].top >= currentDancer.top + 1) {
+              if(dancers[j].left <= currentDancer.left + 19 && dancers[j].left >= currentDancer.left + 1) {
+                // if there is one within that radius, make (original )object bounce (change the speed value)
+                currentDancer.topSpeed *= -1;
+                currentDancer.leftSpeed *= -1;
+                // dancers[j].topSpeed *= -1;
+                // dancers[j].leftSpeed *= -1;
+              }
+            }
+          }
+        }
+      }
+    }
+  };
+
+  setInterval(collisionDetector,10);
+
 });
 
